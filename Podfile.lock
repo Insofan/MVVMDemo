@@ -1,19 +1,5 @@
 PODS:
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
-    - AFNetworking/NSURLSession
+  - FoldingTabBar (1.2.1)
   - HXTool (0.1.6)
   - iCarousel (1.8.3)
   - IQKeyboardManager (5.0.6)
@@ -69,7 +55,7 @@ PODS:
   - YYModel (1.0.4)
 
 DEPENDENCIES:
-  - AFNetworking (= 3.1.0)
+  - FoldingTabBar (~> 1.2.1)
   - HXTool
   - iCarousel (= 1.8.3)
   - IQKeyboardManager (= 5.0.6)
@@ -89,7 +75,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - AFNetworking
+    - FoldingTabBar
     - HXTool
     - iCarousel
     - IQKeyboardManager
@@ -110,7 +96,7 @@ SPEC REPOS:
     - YYModel
 
 SPEC CHECKSUMS:
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  FoldingTabBar: b1817b36d15eedefd8e42f66abbd36fe4feabcf2
   HXTool: a9db6a4a85948b3d3191ef9e2ebc95f3dbfe8041
   iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
   IQKeyboardManager: 077b7f691dfa9d69db9cff66f2bed68ebfc02d9b
@@ -130,6 +116,6 @@ SPEC CHECKSUMS:
   YYCategories: 6bcd4314c6661a561410dce4a793379ebd306abd
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 5ffa2085a07f57ea54cd06dc213da55777982cc6
+PODFILE CHECKSUM: 522b043eff05d22b490c71a33e13c866b9cba147
 
 COCOAPODS: 1.5.2

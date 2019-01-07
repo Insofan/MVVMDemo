@@ -17,10 +17,10 @@ target 'MVVMDemo' do
   pod 'YYModel'
   pod 'YYCategories'
   pod 'SDWebImage', '4.2.1'
-  pod "AFNetworking", '3.1.0'
   pod "MJRefresh", '3.1.15'
   pod 'iCarousel', '1.8.3'
   pod 'JSPatchPlatform'
   pod 'JSPatch/Extensions'
   pod 'JSPatch/JPCFunction'
+  pod 'FoldingTabBar', '~> 1.2.1'
 end
