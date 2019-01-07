@@ -1,23 +1,29 @@
 //
-//  AppDelegate.m
-//  MVVMDemo
-//
-//  Created by Insomnia on 2019/1/7.
-//  Copyright © 2019 Insomnia. All rights reserved.
+// Created by Insomnia on 2019/1/7.
+// Copyright (c) 2019 Insomnia. All rights reserved.
 //
 
-#import "AppDelegate.h"
-
-@interface AppDelegate ()
+#import "MMAppDelegate.h"
+@interface MMAppDelegate ()
 
 @end
 
-@implementation AppDelegate
-
+@implementation MMAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [self setRootViewController];
+
     return YES;
+}
+
+
+- (void)setRootViewController {
+    self.window = [UIWindow new];
+    self.window.frame = [UIScreen mainScreen].bounds;
+    
+
+    [self.window makeKeyAndVisible];
 }
 
 
@@ -46,6 +52,4 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
-
 @end
