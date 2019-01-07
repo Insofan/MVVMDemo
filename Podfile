@@ -20,4 +20,7 @@ target 'MVVMDemo' do
   pod "AFNetworking", '3.1.0'
   pod "MJRefresh", '3.1.15'
   pod 'iCarousel', '1.8.3'
+  pod 'JSPatchPlatform'
+  pod 'JSPatch/Extensions'
+  pod 'JSPatch/JPCFunction'
 end
