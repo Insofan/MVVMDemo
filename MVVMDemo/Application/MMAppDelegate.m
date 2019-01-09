@@ -4,6 +4,7 @@
 //
 
 #import "MMAppDelegate.h"
+#import "MMFoldingTabBarControllerConfig.h"
 @interface MMAppDelegate ()
 
 @end
@@ -21,7 +22,11 @@
 - (void)setRootViewController {
     self.window = [UIWindow new];
     self.window.frame = [UIScreen mainScreen].bounds;
-    
+    /*
+     
+     */
+    MMFoldingTabBarControllerConfig *tabBarControllerConfig = [MMFoldingTabBarControllerConfig new];
+    [self.window setRootViewController:tabBarControllerConfig.foldingTabBarController];
 
     [self.window makeKeyAndVisible];
 }

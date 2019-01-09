@@ -1,5 +1,5 @@
 //
-//  MMTabBarControllerConfig.h
+//  MMFoldingTabBarControllerConfig.h
 //  MVVMDemo
 //
 //  Created by Insomnia on 2019/1/7.
@@ -13,7 +13,7 @@
 #import <YALAnimatingTabBarConstants.h>
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MMTabBarControllerConfig : NSObject
+@interface MMFoldingTabBarControllerConfig : NSObject
 @property (nonatomic, strong, readonly) YALFoldingTabBarController *foldingTabBarController;
 @end
 

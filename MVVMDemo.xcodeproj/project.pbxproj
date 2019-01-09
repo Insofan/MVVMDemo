@@ -13,9 +13,11 @@
 		31664C2014C78F7D0DBDAB1F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 316644B4A5D46E75EF757408 /* Main.storyboard */; };
 		31664E23D8289672AADF2F37 /* MMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31664AAB1E9D8D6575770424 /* MMAppDelegate.m */; };
 		476D428158B3151D75437CB1 /* libPods-MVVMDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A472BC874BF926DCE6EEA21F /* libPods-MVVMDemo.a */; };
+		E61F34FD21E5E1C5006DB57A /* MMCityTravelNotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F34FC21E5E1C5006DB57A /* MMCityTravelNotesViewController.m */; };
+		E61F350121E5E2C6006DB57A /* MMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F350021E5E2C6006DB57A /* MMBaseViewController.m */; };
+		E61F350521E5EC9A006DB57A /* MMFindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F350421E5EC9A006DB57A /* MMFindViewController.m */; };
 		E67E835E21E305F8008615F2 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67E835D21E305F8008615F2 /* AFNetworking.framework */; };
-		E6ADE85C21E3442400C464F0 /* MMTabBarControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ADE85B21E3442400C464F0 /* MMTabBarControllerConfig.m */; };
-		E6DBA19421E2F71200875237 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6DBA19321E2F71200875237 /* ViewController.m */; };
+		E6ADE85C21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ADE85B21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,13 +31,18 @@
 		31664C324A3AFB1356B852B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		31664FF64BAD3AC7720357AD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A472BC874BF926DCE6EEA21F /* libPods-MVVMDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MVVMDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E61F34FA21E5DD29006DB57A /* MMConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMConfig.h; sourceTree = "<group>"; };
+		E61F34FB21E5E1C5006DB57A /* MMCityTravelNotesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMCityTravelNotesViewController.h; sourceTree = "<group>"; };
+		E61F34FC21E5E1C5006DB57A /* MMCityTravelNotesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMCityTravelNotesViewController.m; sourceTree = "<group>"; };
+		E61F34FF21E5E2C6006DB57A /* MMBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMBaseViewController.h; sourceTree = "<group>"; };
+		E61F350021E5E2C6006DB57A /* MMBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMBaseViewController.m; sourceTree = "<group>"; };
+		E61F350321E5EC9A006DB57A /* MMFindViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMFindViewController.h; sourceTree = "<group>"; };
+		E61F350421E5EC9A006DB57A /* MMFindViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMFindViewController.m; sourceTree = "<group>"; };
 		E67E835D21E305F8008615F2 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/iOS/AFNetworking.framework; sourceTree = "<group>"; };
 		E6ADE85821E340BB00C464F0 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
-		E6ADE85A21E3442400C464F0 /* MMTabBarControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMTabBarControllerConfig.h; sourceTree = "<group>"; };
-		E6ADE85B21E3442400C464F0 /* MMTabBarControllerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMTabBarControllerConfig.m; sourceTree = "<group>"; };
+		E6ADE85A21E3442400C464F0 /* MMFoldingTabBarControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMFoldingTabBarControllerConfig.h; sourceTree = "<group>"; };
+		E6ADE85B21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMFoldingTabBarControllerConfig.m; sourceTree = "<group>"; };
 		E6DBA18C21E2F71200875237 /* MVVMDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MVVMDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E6DBA19221E2F71200875237 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E6DBA19321E2F71200875237 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,9 +58,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3166418C578D3F8A4320EF38 /* Configure */ = {
+			isa = PBXGroup;
+			children = (
+				E61F34FA21E5DD29006DB57A /* MMConfig.h */,
+			);
+			path = Configure;
+			sourceTree = "<group>";
+		};
 		316641C70B33A4E779EABB44 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				3166418C578D3F8A4320EF38 /* Configure */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -62,16 +78,76 @@
 			isa = PBXGroup;
 			children = (
 				31664EC620BDF2A3A494172A /* Main */,
+				31664A2135D53A09DCF49604 /* City */,
+				31664B61C3BDA3E1FCA586B3 /* Find */,
+				31664879D09BC977BD716828 /* Me */,
+				316648F8C3C853AE2C0B0030 /* Destination */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		31664460BDEE8F9A6133A685 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		316644BEB1F25C1DF1B5AFF9 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				E6ADE85921E3436A00C464F0 /* TabBarConfig */,
+				E61F34FE21E5E294006DB57A /* Controller */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		316645C69FA0EADCD6285ED5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E61F34FB21E5E1C5006DB57A /* MMCityTravelNotesViewController.h */,
+				E61F34FC21E5E1C5006DB57A /* MMCityTravelNotesViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		31664879D09BC977BD716828 /* Me */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Me;
+			sourceTree = "<group>";
+		};
+		316648F8C3C853AE2C0B0030 /* Destination */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Destination;
+			sourceTree = "<group>";
+		};
+		316649F1BA4E002E69BBE7FA /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		31664A2135D53A09DCF49604 /* City */ = {
+			isa = PBXGroup;
+			children = (
+				316645C69FA0EADCD6285ED5 /* Controller */,
+				31664460BDEE8F9A6133A685 /* Model */,
+				316649F1BA4E002E69BBE7FA /* View */,
+				31664F9CE73F92CA5D315B32 /* ViewModel */,
+			);
+			path = City;
+			sourceTree = "<group>";
+		};
+		31664B61C3BDA3E1FCA586B3 /* Find */ = {
+			isa = PBXGroup;
+			children = (
+				E61F350221E5EC77006DB57A /* Controller */,
+			);
+			path = Find;
 			sourceTree = "<group>";
 		};
 		31664E3B912760E90D87117B /* SupportingFiles */ = {
@@ -99,9 +175,17 @@
 		31664EC620BDF2A3A494172A /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				E6ADE85921E3436A00C464F0 /* TabBarConfig */,
 				316644BEB1F25C1DF1B5AFF9 /* Base */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		31664F9CE73F92CA5D315B32 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		7E4B4EA88AC1714A0B1D151A /* Frameworks */ = {
@@ -122,11 +206,29 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E61F34FE21E5E294006DB57A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E61F34FF21E5E2C6006DB57A /* MMBaseViewController.h */,
+				E61F350021E5E2C6006DB57A /* MMBaseViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		E61F350221E5EC77006DB57A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E61F350321E5EC9A006DB57A /* MMFindViewController.h */,
+				E61F350421E5EC9A006DB57A /* MMFindViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		E6ADE85921E3436A00C464F0 /* TabBarConfig */ = {
 			isa = PBXGroup;
 			children = (
-				E6ADE85A21E3442400C464F0 /* MMTabBarControllerConfig.h */,
-				E6ADE85B21E3442400C464F0 /* MMTabBarControllerConfig.m */,
+				E6ADE85A21E3442400C464F0 /* MMFoldingTabBarControllerConfig.h */,
+				E6ADE85B21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m */,
 			);
 			path = TabBarConfig;
 			sourceTree = "<group>";
@@ -152,8 +254,6 @@
 		E6DBA18E21E2F71200875237 /* MVVMDemo */ = {
 			isa = PBXGroup;
 			children = (
-				E6DBA19221E2F71200875237 /* ViewController.h */,
-				E6DBA19321E2F71200875237 /* ViewController.m */,
 				31664E5CC88CF56C5FF738DC /* Application */,
 				31664E3B912760E90D87117B /* SupportingFiles */,
 				31664314082B0E058EE0FE03 /* Classes */,
@@ -296,10 +396,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E6DBA19421E2F71200875237 /* ViewController.m in Sources */,
-				E6ADE85C21E3442400C464F0 /* MMTabBarControllerConfig.m in Sources */,
+				E6ADE85C21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m in Sources */,
+				E61F350521E5EC9A006DB57A /* MMFindViewController.m in Sources */,
+				E61F350121E5E2C6006DB57A /* MMBaseViewController.m in Sources */,
 				31664E23D8289672AADF2F37 /* MMAppDelegate.m in Sources */,
 				316647A2880CBE88EA9E32C9 /* main.m in Sources */,
+				E61F34FD21E5E1C5006DB57A /* MMCityTravelNotesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
