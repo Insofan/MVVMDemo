@@ -4,7 +4,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <RealReachability.h>
 
 @interface MMAppDelegate :UIResponder <UIApplicationDelegate>
 @property (strong, nonatomic) UIWindow *window;
+ /**
+  *
+  */
+ @property(assign, nonatomic, readonly) ReachabilityStatus NetWorkStatus;
 @end

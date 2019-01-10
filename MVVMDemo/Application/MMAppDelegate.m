@@ -5,6 +5,8 @@
 
 #import "MMAppDelegate.h"
 #import "MMFoldingTabBarControllerConfig.h"
+#import "IQKeyboardManager.h"
+
 @interface MMAppDelegate ()
 
 @end
@@ -14,6 +16,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [self setRootViewController];
+    [self configurationIQKeyboard];
+    [self configurationNetWorkStatus];
 
     return YES;
 }
@@ -31,6 +35,25 @@
     [self.window makeKeyAndVisible];
 }
 
+
+- (void)configurationIQKeyboard {
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.shouldResignOnTouchOutside = true;
+    manager.shouldToolbarUsesTextFieldTintColor = true;
+    manager.enableAutoToolbar = false;
+}
+
+- (void)configurationNetWorkStatus {
+    [GLobalRealReachability startNotifier];
+    RAC(self, NetWorkStatus) = [[[[[NSNotificationCenter defaultCenter]
+            rac_addObserverForName:kRealReachabilityChangedNotification
+                            object:nil]
+            map:^id(NSNotification *noti) {
+                return @([noti.object currentReachabilityStatus]);
+            }] startWith:@([GLobalRealReachability
+            currentReachabilityStatus])]
+            distinctUntilChanged];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

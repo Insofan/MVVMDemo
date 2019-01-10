@@ -56,7 +56,7 @@
                                                       leftItemImage:nil
                                                      rightItemImage:nil];
     
-    tabBarVc.leftBarItems = @[item1, item2];
+    tabBarVc.leftBarItems = @[item1];
     
     
 //    YALTabBarItem *item3 = [[YALTabBarItem alloc] initWithItemImage:[UIImage imageNamed:@"chats_icon"]
@@ -69,6 +69,7 @@
 //                                                     rightItemImage:nil];
 //
 //    tabBarVc.rightBarItems = @[item3, item4];
+    tabBarVc.rightBarItems = @[item2];
     
     tabBarVc.centerButtonImage = [UIImage imageNamed:@"plus_icon"];
     
@@ -81,7 +82,7 @@
     tabBarVc.tabBarViewHeight = YALTabBarViewDefaultHeight;
 //    tabBarVc.tabBarView.tabBarViewEdgeInsets = UIEdgeInsetsMake(-15.0f, 15.0f, 10.0f, 15.0f);
 //    tabBarVc.tabBarView.tabBarItemsEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
-    tabBarVc.tabBarView.tabBarViewEdgeInsets = UIEdgeInsetsMake(-15.0f, 15.0f, 10.0f, 15.0f);
+    tabBarVc.tabBarView.tabBarViewEdgeInsets = UIEdgeInsetsMake(-15.0f, 65.0f, 10.0f, 65.0f);
     tabBarVc.tabBarView.tabBarItemsEdgeInsets = UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f);
 }
 @end
