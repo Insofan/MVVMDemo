@@ -17,6 +17,7 @@
 		E61F350121E5E2C6006DB57A /* MMBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F350021E5E2C6006DB57A /* MMBaseViewController.m */; };
 		E61F350521E5EC9A006DB57A /* MMFindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F350421E5EC9A006DB57A /* MMFindViewController.m */; };
 		E61F351621E72E6F006DB57A /* MMViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F351521E72E6F006DB57A /* MMViewModel.m */; };
+		E61F353721E884AD006DB57A /* MMViewModelServiceImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F353621E884AD006DB57A /* MMViewModelServiceImpl.m */; };
 		E67E835E21E305F8008615F2 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67E835D21E305F8008615F2 /* AFNetworking.framework */; };
 		E6ADE85C21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ADE85B21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,10 @@
 		E61F350421E5EC9A006DB57A /* MMFindViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMFindViewController.m; sourceTree = "<group>"; };
 		E61F351421E72E6F006DB57A /* MMViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMViewModel.h; sourceTree = "<group>"; };
 		E61F351521E72E6F006DB57A /* MMViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMViewModel.m; sourceTree = "<group>"; };
+		E61F353421E88256006DB57A /* MMViewModelService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMViewModelService.h; sourceTree = "<group>"; };
+		E61F353521E884AD006DB57A /* MMViewModelServiceImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMViewModelServiceImpl.h; sourceTree = "<group>"; };
+		E61F353621E884AD006DB57A /* MMViewModelServiceImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMViewModelServiceImpl.m; sourceTree = "<group>"; };
+		E61F353821E885E5006DB57A /* MMViewModelProtocolImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMViewModelProtocolImpl.h; sourceTree = "<group>"; };
 		E67E835D21E305F8008615F2 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/iOS/AFNetworking.framework; sourceTree = "<group>"; };
 		E6ADE85821E340BB00C464F0 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		E6ADE85A21E3442400C464F0 /* MMFoldingTabBarControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMFoldingTabBarControllerConfig.h; sourceTree = "<group>"; };
@@ -101,6 +106,7 @@
 			children = (
 				E61F34FE21E5E294006DB57A /* Controller */,
 				31664D1FED5FA5C37D8A7266 /* ViewModel */,
+				31664B3DED6D43DEB9293ED9 /* Model */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -146,6 +152,14 @@
 			path = City;
 			sourceTree = "<group>";
 		};
+		31664B3DED6D43DEB9293ED9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E61F353821E885E5006DB57A /* MMViewModelProtocolImpl.h */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		31664B61C3BDA3E1FCA586B3 /* Find */ = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +173,9 @@
 			children = (
 				E61F351421E72E6F006DB57A /* MMViewModel.h */,
 				E61F351521E72E6F006DB57A /* MMViewModel.m */,
+				E61F353421E88256006DB57A /* MMViewModelService.h */,
+				E61F353521E884AD006DB57A /* MMViewModelServiceImpl.h */,
+				E61F353621E884AD006DB57A /* MMViewModelServiceImpl.m */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -413,6 +430,7 @@
 				E61F350521E5EC9A006DB57A /* MMFindViewController.m in Sources */,
 				E61F350121E5E2C6006DB57A /* MMBaseViewController.m in Sources */,
 				31664E23D8289672AADF2F37 /* MMAppDelegate.m in Sources */,
+				E61F353721E884AD006DB57A /* MMViewModelServiceImpl.m in Sources */,
 				316647A2880CBE88EA9E32C9 /* main.m in Sources */,
 				E61F34FD21E5E1C5006DB57A /* MMCityTravelNotesViewController.m in Sources */,
 				E61F351621E72E6F006DB57A /* MMViewModel.m in Sources */,
