@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MMViewModelServiceImpl : NSObject<MMViewModelService>
-
+- (instancetype)initModelServiceImpl;
 @end
 
 NS_ASSUME_NONNULL_END

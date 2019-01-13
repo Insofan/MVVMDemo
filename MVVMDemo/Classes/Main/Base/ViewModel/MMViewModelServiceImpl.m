@@ -7,6 +7,15 @@
 //
 
 #import "MMViewModelServiceImpl.h"
+#import "MMCityTravelProtocolImpl.h"
+
+
+@interface MMViewModelService()
+/**
+ * 首页数据服务
+ */
+@property (strong, nonatomic) MMCityTravelProtocolImpl *cityTravelService;
+@end
 
 @implementation MMViewModelServiceImpl
 
