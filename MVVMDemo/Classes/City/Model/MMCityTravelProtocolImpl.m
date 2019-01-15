@@ -6,7 +6,7 @@
 //  Copyright © 2019 Insomnia. All rights reserved.
 //
 
-#import "MMCityTravelProtocolImpl"
+#import "MMCityTravelProtocolImpl.h"
 #import "MMBannerModel.h"
 
 @interface MMCityTravelProtocolImpl()

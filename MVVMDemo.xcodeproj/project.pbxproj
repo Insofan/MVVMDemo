@@ -18,6 +18,11 @@
 		E61F350521E5EC9A006DB57A /* MMFindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F350421E5EC9A006DB57A /* MMFindViewController.m */; };
 		E61F351621E72E6F006DB57A /* MMViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F351521E72E6F006DB57A /* MMViewModel.m */; };
 		E61F353721E884AD006DB57A /* MMViewModelServiceImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = E61F353621E884AD006DB57A /* MMViewModelServiceImpl.m */; };
+		E65EE3F021EC8674001C9F87 /* MMNetWorking.m in Sources */ = {isa = PBXBuildFile; fileRef = E65EE3EE21EC8674001C9F87 /* MMNetWorking.m */; };
+		E65EE3F121EC8674001C9F87 /* MMAppDotNetAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E65EE3EF21EC8674001C9F87 /* MMAppDotNetAPIClient.m */; };
+		E65EE3F421EC8D44001C9F87 /* MMConst.m in Sources */ = {isa = PBXBuildFile; fileRef = E65EE3F321EC8D44001C9F87 /* MMConst.m */; };
+		E65EE3F821EC8D86001C9F87 /* MMCityTravelProtocolImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = E65EE3F721EC8D86001C9F87 /* MMCityTravelProtocolImpl.m */; };
+		E65EE3FB21EC916E001C9F87 /* MMServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = E65EE3FA21EC916E001C9F87 /* MMServerConfig.m */; };
 		E67E835E21E305F8008615F2 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67E835D21E305F8008615F2 /* AFNetworking.framework */; };
 		E6ADE85C21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ADE85B21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m */; };
 /* End PBXBuildFile section */
@@ -46,6 +51,16 @@
 		E61F353521E884AD006DB57A /* MMViewModelServiceImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMViewModelServiceImpl.h; sourceTree = "<group>"; };
 		E61F353621E884AD006DB57A /* MMViewModelServiceImpl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMViewModelServiceImpl.m; sourceTree = "<group>"; };
 		E61F353821E885E5006DB57A /* MMViewModelProtocolImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMViewModelProtocolImpl.h; sourceTree = "<group>"; };
+		E65EE3EC21EC8674001C9F87 /* MMAppDotNetAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMAppDotNetAPIClient.h; sourceTree = "<group>"; };
+		E65EE3ED21EC8674001C9F87 /* MMNetWorking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMNetWorking.h; sourceTree = "<group>"; };
+		E65EE3EE21EC8674001C9F87 /* MMNetWorking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMNetWorking.m; sourceTree = "<group>"; };
+		E65EE3EF21EC8674001C9F87 /* MMAppDotNetAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMAppDotNetAPIClient.m; sourceTree = "<group>"; };
+		E65EE3F221EC8D44001C9F87 /* MMConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMConst.h; sourceTree = "<group>"; };
+		E65EE3F321EC8D44001C9F87 /* MMConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMConst.m; sourceTree = "<group>"; };
+		E65EE3F621EC8D86001C9F87 /* MMCityTravelProtocolImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMCityTravelProtocolImpl.h; sourceTree = "<group>"; };
+		E65EE3F721EC8D86001C9F87 /* MMCityTravelProtocolImpl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMCityTravelProtocolImpl.m; sourceTree = "<group>"; };
+		E65EE3F921EC916E001C9F87 /* MMServerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMServerConfig.h; sourceTree = "<group>"; };
+		E65EE3FA21EC916E001C9F87 /* MMServerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMServerConfig.m; sourceTree = "<group>"; };
 		E67E835D21E305F8008615F2 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/iOS/AFNetworking.framework; sourceTree = "<group>"; };
 		E6ADE85821E340BB00C464F0 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		E6ADE85A21E3442400C464F0 /* MMFoldingTabBarControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMFoldingTabBarControllerConfig.h; sourceTree = "<group>"; };
@@ -70,6 +85,10 @@
 			isa = PBXGroup;
 			children = (
 				E61F34FA21E5DD29006DB57A /* MMConfig.h */,
+				E65EE3F221EC8D44001C9F87 /* MMConst.h */,
+				E65EE3F321EC8D44001C9F87 /* MMConst.m */,
+				E65EE3F921EC916E001C9F87 /* MMServerConfig.h */,
+				E65EE3FA21EC916E001C9F87 /* MMServerConfig.m */,
 			);
 			path = Configure;
 			sourceTree = "<group>";
@@ -77,6 +96,7 @@
 		316641C70B33A4E779EABB44 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				E65EE3EB21EC8674001C9F87 /* NetWork */,
 				3166418C578D3F8A4320EF38 /* Configure */,
 			);
 			path = Tool;
@@ -97,6 +117,8 @@
 		31664460BDEE8F9A6133A685 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E65EE3F621EC8D86001C9F87 /* MMCityTravelProtocolImpl.h */,
+				E65EE3F721EC8D86001C9F87 /* MMCityTravelProtocolImpl.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -252,6 +274,17 @@
 				E61F350421E5EC9A006DB57A /* MMFindViewController.m */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		E65EE3EB21EC8674001C9F87 /* NetWork */ = {
+			isa = PBXGroup;
+			children = (
+				E65EE3EC21EC8674001C9F87 /* MMAppDotNetAPIClient.h */,
+				E65EE3EF21EC8674001C9F87 /* MMAppDotNetAPIClient.m */,
+				E65EE3ED21EC8674001C9F87 /* MMNetWorking.h */,
+				E65EE3EE21EC8674001C9F87 /* MMNetWorking.m */,
+			);
+			path = NetWork;
 			sourceTree = "<group>";
 		};
 		E6ADE85921E3436A00C464F0 /* TabBarConfig */ = {
@@ -427,9 +460,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E6ADE85C21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m in Sources */,
+				E65EE3F121EC8674001C9F87 /* MMAppDotNetAPIClient.m in Sources */,
+				E65EE3F821EC8D86001C9F87 /* MMCityTravelProtocolImpl.m in Sources */,
 				E61F350521E5EC9A006DB57A /* MMFindViewController.m in Sources */,
 				E61F350121E5E2C6006DB57A /* MMBaseViewController.m in Sources */,
+				E65EE3FB21EC916E001C9F87 /* MMServerConfig.m in Sources */,
 				31664E23D8289672AADF2F37 /* MMAppDelegate.m in Sources */,
+				E65EE3F421EC8D44001C9F87 /* MMConst.m in Sources */,
+				E65EE3F021EC8674001C9F87 /* MMNetWorking.m in Sources */,
 				E61F353721E884AD006DB57A /* MMViewModelServiceImpl.m in Sources */,
 				316647A2880CBE88EA9E32C9 /* main.m in Sources */,
 				E61F34FD21E5E1C5006DB57A /* MMCityTravelNotesViewController.m in Sources */,
