@@ -7,7 +7,7 @@
 //
 
 #import "MMCityTravelProtocolImpl.h"
-#import "MMBannerModel.h"
+//#import "MMBannerModel.h"
 
 @interface MMCityTravelProtocolImpl()
 @end

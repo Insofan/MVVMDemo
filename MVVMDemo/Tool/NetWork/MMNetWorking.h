@@ -275,14 +275,14 @@ typedef void(^MMResponseFail)(NSError *error);
                           success:(MMResponseSuccess)success
                              fail:(MMResponseFail)fail;
 // 多一个带进度回调（无提示框）
-+ (HTURLSessionTask *)postWithUrl:(NSString *)url
++ (MMURLSessionTask *)postWithUrl:(NSString *)url
                      refreshCache:(BOOL)refreshCache
                            params:(NSDictionary *)params
                          progress:(MMPostProgress)progress
                           success:(MMResponseSuccess)success
                              fail:(MMResponseFail)fail;
 // 多一个带进度回调（有提示框）
-+ (HTURLSessionTask *)postWithUrl:(NSString *)url
++ (MMURLSessionTask *)postWithUrl:(NSString *)url
                      refreshCache:(BOOL)refreshCache
                           showHUD:(NSString *)statusText
                            params:(NSDictionary *)params

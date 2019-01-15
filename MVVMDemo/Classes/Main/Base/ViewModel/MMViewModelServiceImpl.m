@@ -10,7 +10,7 @@
 #import "MMCityTravelProtocolImpl.h"
 
 
-@interface MMViewModelService()
+@interface MMViewModelServiceImpl()
 /**
  * 首页数据服务
  */
