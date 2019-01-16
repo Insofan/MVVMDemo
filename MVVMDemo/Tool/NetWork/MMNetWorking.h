@@ -302,7 +302,7 @@ typedef void(^MMResponseFail)(NSError *error);
  * @param success 上传成功回调
  * @param fail 上传失败回调
  *
- * @return
+ * @return  返回对象带有可取消请求的api
  */
 + (MMURLSessionTask *)uploadWithImage:(UIImage *)image
                                   url:(NSString *)url
@@ -322,7 +322,7 @@ typedef void(^MMResponseFail)(NSError *error);
  * @param success 上传成功回调
  * @param fail 上传失败回调
  *
- * @return
+ * @return  返回对象带有可取消请求的api
  */
 + (MMURLSessionTask *)uploadFileWithUrl:(NSString *)url
                           uploadingFile:(NSString *)uploadingFile
@@ -338,7 +338,7 @@ typedef void(^MMResponseFail)(NSError *error);
  * @param success  下载成功回调
  * @param fail 下载失败回调
  *
- * @return
+ * @return  返回对象带有可取消请求的api
  */
 + (MMURLSessionTask *)downloadWithUrl:(NSString *)url
                            saveToPath:(NSString *)saveToPath
