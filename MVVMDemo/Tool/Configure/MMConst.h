@@ -7,11 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+/********************************网络请求地址********************************************/
 
-@interface MMConst : NSObject
+/*!
+ * 服务器地址
+ */
+FOUNDATION_EXTERN NSString *const MMURL;
+FOUNDATION_EXTERN NSString *const MMURL_Test;
 
-@end
 
-NS_ASSUME_NONNULL_END

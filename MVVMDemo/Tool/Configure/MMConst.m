@@ -8,6 +8,10 @@
 
 #import "MMConst.h"
 
-@implementation MMConst
+/********************************网络请求地址********************************************/
 
-@end
+/*!
+ * 服务器地址
+ */
+FOUNDATION_EXTERN NSString *const MMURL = @"http://api.breadtrip.com";
+FOUNDATION_EXTERN NSString *const MMURL_Test = @"http://api.breadtrip.com";

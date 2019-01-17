@@ -24,6 +24,7 @@
 		E65EE3F821EC8D86001C9F87 /* MMCityTravelProtocolImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = E65EE3F721EC8D86001C9F87 /* MMCityTravelProtocolImpl.m */; };
 		E65EE3FB21EC916E001C9F87 /* MMServerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = E65EE3FA21EC916E001C9F87 /* MMServerConfig.m */; };
 		E67E835E21E305F8008615F2 /* AFNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E67E835D21E305F8008615F2 /* AFNetworking.framework */; };
+		E68C244621F07DED004E3240 /* MMShowMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = E68C244521F07DED004E3240 /* MMShowMessageView.m */; };
 		E6ADE85C21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ADE85B21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		E65EE3F921EC916E001C9F87 /* MMServerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMServerConfig.h; sourceTree = "<group>"; };
 		E65EE3FA21EC916E001C9F87 /* MMServerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMServerConfig.m; sourceTree = "<group>"; };
 		E67E835D21E305F8008615F2 /* AFNetworking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AFNetworking.framework; path = Carthage/Build/iOS/AFNetworking.framework; sourceTree = "<group>"; };
+		E68C244421F07DED004E3240 /* MMShowMessageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMShowMessageView.h; sourceTree = "<group>"; };
+		E68C244521F07DED004E3240 /* MMShowMessageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMShowMessageView.m; sourceTree = "<group>"; };
 		E6ADE85821E340BB00C464F0 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		E6ADE85A21E3442400C464F0 /* MMFoldingTabBarControllerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMFoldingTabBarControllerConfig.h; sourceTree = "<group>"; };
 		E6ADE85B21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMFoldingTabBarControllerConfig.m; sourceTree = "<group>"; };
@@ -96,6 +99,7 @@
 		316641C70B33A4E779EABB44 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				E68C244321F07C18004E3240 /* Utils */,
 				E65EE3EB21EC8674001C9F87 /* NetWork */,
 				3166418C578D3F8A4320EF38 /* Configure */,
 			);
@@ -287,6 +291,15 @@
 			path = NetWork;
 			sourceTree = "<group>";
 		};
+		E68C244321F07C18004E3240 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				E68C244421F07DED004E3240 /* MMShowMessageView.h */,
+				E68C244521F07DED004E3240 /* MMShowMessageView.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		E6ADE85921E3436A00C464F0 /* TabBarConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -462,6 +475,7 @@
 				E6ADE85C21E3442400C464F0 /* MMFoldingTabBarControllerConfig.m in Sources */,
 				E65EE3F121EC8674001C9F87 /* MMAppDotNetAPIClient.m in Sources */,
 				E65EE3F821EC8D86001C9F87 /* MMCityTravelProtocolImpl.m in Sources */,
+				E68C244621F07DED004E3240 /* MMShowMessageView.m in Sources */,
 				E61F350521E5EC9A006DB57A /* MMFindViewController.m in Sources */,
 				E61F350121E5E2C6006DB57A /* MMBaseViewController.m in Sources */,
 				E65EE3FB21EC916E001C9F87 /* MMServerConfig.m in Sources */,
