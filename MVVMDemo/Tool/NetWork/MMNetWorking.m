@@ -175,6 +175,57 @@ static inline NSString *cachePath() {
     return MM_requestTasks;
 }
 
++ (void)cancelAllRequest {
+    @synchronized (self) {
+        [[self allTasks] enumerateObjectsUsingBlock:^(MMURLSessionTask *_Nonnull task, NSUInteger idx, BOOL *stop) {
+            if ([task isKindOfClass:[MMURLSessionTask class]]) {
+                [task cancel];
+            }
+        }];
+        [[self allTasks] removeAllObjects];
+    }
+}
+
++ (void)cancelRequestWithURL:(NSString *)url {
+    if (!url) {
+        return;
+    }
+
+    @synchronized (self) {
+        [[self allTasks] enumerateObjectsUsingBlock:^(MMURLSessionTask *task, NSUInteger idx, BOOL *stop) {
+            if ([task isKindOfClass:[MMURLSessionTask class]] && [task.currentRequest.URL.absoluteString hasSuffix:url]) {
+                [task cancel];
+                [[self allTasks] removeObject:task];
+                return;
+            }
+        }];
+    }
+}
+
++ (void)configRequestType:(MMRequestType)requestType
+             responseType:(MMResponseType)responseType
+      shouldAutoEncodeUrl:(BOOL)shouldAutoEncode
+  callbackOnCancelRequest:(BOOL)shouldCallbackOnCancelRequest {
+    MM_requestType = requestType;
+    MM_responseType = responseType;
+    MM_shouldAutoEncode = shouldAutoEncode;
+    MM_shouldCallbackOnCancelRequest = shouldCallbackOnCancelRequest;
+}
+
++ (BOOL)shouldEncode {
+    return MM_shouldAutoEncode;
+}
+
++ (void)configCommonHttpHeaders:(NSDictionary *)httpHeaders {
+    MM_httpHeaders = httpHeaders;
+}
+
+//+ (MMURLSessionTask *)getWithUrl:(NSString *)url
+//                    refreshCache:(BOOL)refreshCache
+//                         success:(MMResponseSuccess)success
+//                            fail:(MMResponseFail)fail {
+//}
+
 @end
 
 
