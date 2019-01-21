@@ -12,6 +12,7 @@
 #import "MMAppDotNetAPIClient.h"
 
 #import "MMServerConfig.h"
+#import "MMShowMessageView.h"
 
 
 /*!
@@ -230,7 +231,7 @@ static inline NSString *cachePath() {
                            refreshCache:(BOOL)refreshCache
                               isShowHUD:(BOOL)isShowHud
                                 shoeHUD:(NSString *)statusText
-                              httpMedth:(NSUInteger)httpMethod
+                              httpMethod:(NSUInteger)httpMethod
                                  params:(NSDictionary *)params
                                progress:(MMDownloadProgress)progress
                                 success:(MMResponseSuccess)success
@@ -239,6 +240,7 @@ static inline NSString *cachePath() {
         if ([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) {
         } else {
             NSString *serverAddress = [MMServerConfig getMMServerAddr];
+            url = [serverAddress stringByAppendingString:url];
         }
     } else {
         return nil;
@@ -254,8 +256,19 @@ static inline NSString *cachePath() {
     MMURLSessionTask *session = nil;
     
     if (isShowHud) {
-        [MMNetWroking showH]
+        [MMNetWroking showHUD:statusText];
     }
+    
+    if (httpMethod == 1) {
+        if (MM_cacheGet) {
+            if (MM_shouldObtainLocalWhenUnconnected) {
+                if (MM_networkStatus == kMMNetworkStatusNotReachable || MM_networkStatus == kMMNetworkStatusUnknown) {
+                    id response = [MMNetWroking cacherespon]
+                }
+            }
+        }
+    }
+    
 }
 
 + (NSString *)encodeUrl:(NSString *)url {
@@ -300,6 +313,8 @@ static inline NSString *cachePath() {
 #pragma clang diagnostic pop
     }
 }
+
+
 
 #pragma mark - Private
 + (MMAppDotNetAPIClient *)manager {
@@ -413,6 +428,53 @@ static inline NSString *cachePath() {
         }
     }
     return absoluteUrl;
+}
+
++ (NSString *)generateGETAbsoluteURL:(NSString *)url params:(NSDictionary *)params {
+    if (params == nil || ![params isKindOfClass:[NSDictionary class]] || params.count == 0) {
+        return url;
+    }
+    
+    NSString *queries = @"";
+    for (NSString *key in params) {
+        id value = [params objectForKey:key];
+        
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            continue;
+        } else if ([value isKindOfClass:[NSArray class]]) {
+            continue;
+        } else if ([value isKindOfClass:[NSSet class]]) {
+            continue;
+        } else {
+            queries = [NSString stringWithFormat:@"%@%@=%@&",
+                       (queries.length == 0 ? @"&" : queries),
+                       key,
+                       value];
+        }
+    }
+    
+    if (queries.length > 1) {
+        // 去&
+        queries = [queries substringToIndex:queries.length - 1];
+    }
+    
+    if (([))
+}
+
++ (id)cacheResponseWithURL:(NSString *)url params:params {
+    id cacheData = nil;
+    if (url) {
+        NSString *dirPath = cachePath();
+        NSString *absoluteURL = [self generateGETAbsoluteURL:url params:params];
+    }
+}
+
+#pragma mark - HUD
+
++ (void)showHUD:(NSString *)showMessage {
+    dispatch_main_async_safe(^{
+        [MMShowMessageView showStatusWithMessage:showMessage];
+    });
 }
 @end
 

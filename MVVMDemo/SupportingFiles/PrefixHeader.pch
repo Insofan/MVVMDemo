@@ -17,4 +17,7 @@
 #include <HXTool.h>
 #include <Masonry.h>
 #include <ReactiveObjC.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <SDWebImage/UIButton+WebCache.h>
+#import <SDWebImage/SDWebImageManager.h>
 #endif /* PrefixHeader_pch */
