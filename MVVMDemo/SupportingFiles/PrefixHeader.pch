@@ -20,4 +20,5 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SDWebImage/UIButton+WebCache.h>
 #import <SDWebImage/SDWebImageManager.h>
+#import <CommonElement.h>
 #endif /* PrefixHeader_pch */

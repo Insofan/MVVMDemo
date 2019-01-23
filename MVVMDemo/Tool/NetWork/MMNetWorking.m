@@ -262,13 +262,69 @@ static inline NSString *cachePath() {
     if (httpMethod == 1) {
         if (MM_cacheGet) {
             if (MM_shouldObtainLocalWhenUnconnected) {
+                // 无网时
                 if (MM_networkStatus == kMMNetworkStatusNotReachable || MM_networkStatus == kMMNetworkStatusUnknown) {
-                    id response = [MMNetWroking cacherespon]
+                    id response = [MMNetWroking cacheResponseWithURL:absolute
+                                                              params:params];
+                    if (response) {
+                        if (success) {
+                            // 这里 block 也可以传递
+                            [self successResponse:response
+                                         callBack:success];
+                            
+                            if ([self isDebug]) {
+                                [self logWithSuccessResponse:response
+                                                         url:url
+                                                      params:params];
+                            }
+                        }
+                    }
+                    return nil;
                 }
             }
         }
+        
+        // 不刷新缓存
+        if (!refreshCache) {
+            id response = [MMNetWroking cacheResponseWithURL:absolute
+                                                      params:params];
+            if (response) {
+                if (success) {
+                    [self successResponse:response callBack:success];
+                    
+                    if ([self isDebug]) {
+                        [self logWithSuccessResponse:response
+                                                 url:absolute
+                                              params:params];
+                    }
+                }
+                return nil;
+            }
+        }
+        
+        session  = [manager GET:url
+                     parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
+                         if (progress) {
+                             progress(downloadProgress.completedUnitCount, downloadProgress.totalUnitCount);
+                         }
+                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                         if (isShowHud) {
+                             [MMNetWroking dismissSuccessHUD];
+                         }
+                         
+                         [[self allTasks] removeObject:task];
+                         
+                         [self successResponse:responseObject callBack:success];
+                         
+                         if ([MM_cacheGet]) {
+                             [self cache]
+                         }
+                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                         
+                     }];
     }
     
+    return nil;
 }
 
 + (NSString *)encodeUrl:(NSString *)url {
@@ -313,6 +369,7 @@ static inline NSString *cachePath() {
 #pragma clang diagnostic pop
     }
 }
+
 
 
 
@@ -458,7 +515,17 @@ static inline NSString *cachePath() {
         queries = [queries substringToIndex:queries.length - 1];
     }
     
-    if (([))
+    if (([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) && queries.length > 1) {
+        if ([url rangeOfString:@"?"].location != NSNotFound ||
+            [url rangeOfString:@"#"].location != NSNotFound) {
+            url = [NSString stringWithFormat:@"%@%@", url, queries];
+        } else {
+            queries = [queries substringFromIndex:1];
+            url = [NSString stringWithFormat:@"%@%@", url, queries];
+        }
+    }
+    
+    return url.length == 0 ? queries : url;
 }
 
 + (id)cacheResponseWithURL:(NSString *)url params:params {
@@ -466,7 +533,61 @@ static inline NSString *cachePath() {
     if (url) {
         NSString *dirPath = cachePath();
         NSString *absoluteURL = [self generateGETAbsoluteURL:url params:params];
+        NSString *key = [absoluteURL md5String];
+        NSString *path = [dirPath stringByAppendingPathComponent:key];
+        
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
+        if (data) {
+            cacheData = data;
+            NSLog(@"Read data from cache for url: %@\n", url);
+        }
     }
+    return cacheData;
+}
+
++ (void)cacheResponseObject:(id)responseObject request:(NSURLRequest *)request params:params {
+    if (request && responseObject && ![responseObject isKindOfClass:[NSNull class]]) {
+        NSString *dirPath = cachePath();
+        NSError *error = nil;
+        if (![[NSFileManager defaultManager] ])
+    }
+}
+
+
++ (void)successResponse:(id)responseData callBack:(MMResponseSuccess)success {
+    if (success) {
+        success([self tryToParseData:responseData]);
+    }
+}
+
++ (id)tryToParseData:(id)json {
+    if (!json || json == (id)kCFNull) return nil;
+    NSDictionary *dic = nil;
+    NSData *jsonData = nil;
+    if ([json isKindOfClass:[NSDictionary class]]) {
+        dic = json;
+    } else if ([json isKindOfClass:[NSString class]]) {
+        jsonData = [(NSString *)json dataUsingEncoding:NSUTF8StringEncoding];
+    } else if ([json isKindOfClass:[NSData class]]) {
+        jsonData = json;
+    }
+    
+    if (jsonData) {
+        dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                              options:kNilOptions
+                                                error:nil];
+        if (![dic isKindOfClass:[NSDictionary class]]) dic = nil;
+    }
+    return dic;
+}
+
++ (void)logWithSuccessResponse:(id)response url:(NSString *)url params:(NSDictionary *)params {
+    NSLog(@"\n");
+    NSLog(@"\nRequest success, URL: %@\n params:%@\n response:%@\n\n",
+          [self generateGETAbsoluteURL:url params:params],
+          params,
+          [self tryToParseData:response]
+          );
 }
 
 #pragma mark - HUD
@@ -474,6 +595,12 @@ static inline NSString *cachePath() {
 + (void)showHUD:(NSString *)showMessage {
     dispatch_main_async_safe(^{
         [MMShowMessageView showStatusWithMessage:showMessage];
+    });
+}
+
++ (void)dismissSuccessHUD {
+    dispatch_main_async_safe(^{
+        [MMShowMessageView dismissErrorView:@"Success"];
     });
 }
 @end
