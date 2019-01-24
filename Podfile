@@ -23,5 +23,4 @@ target 'MVVMDemo' do
   pod 'JSPatch/Extensions'
   pod 'JSPatch/JPCFunction'
   pod 'FoldingTabBar', '~> 1.2.1'
-  pod "CommonElement"
-end
+  end
