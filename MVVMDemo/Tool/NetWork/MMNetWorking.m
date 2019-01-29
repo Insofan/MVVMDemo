@@ -88,6 +88,11 @@ static MMAppDotNetAPIClient *MM_sharedManager = nil;
 
 @implementation MMNetWroking
 
++ (void)cacheGetRequest:(BOOL)isCacheGet shouldCachePost:(BOOL)shouldCachePost {
+    MM_cacheGet = isCacheGet;
+    MM_cachePost = shouldCachePost;
+}
+
 + (void)updateBaseUrl:(NSString *)baseUrl {
     if ([baseUrl isEqualToString:MM_privateNetworkBaseUrl] && baseUrl && baseUrl.length) {
        MM_isBaseURLChanged = true;
@@ -101,10 +106,7 @@ static MMAppDotNetAPIClient *MM_sharedManager = nil;
     return MM_privateNetworkBaseUrl;
 }
 
-+ (void)cacheGetRequest:(BOOL)isCacheGet shouldCachePost:(BOOL)shouldCachePost {
-    MM_cacheGet = isCacheGet;
-    MM_cachePost = shouldCachePost;
-}
+
 
 + (void)setTimeout:(NSTimeInterval)timeout {
     MM_timeout = timeout;
@@ -221,6 +223,8 @@ static inline NSString *cachePath() {
     MM_httpHeaders = httpHeaders;
 }
 
+#pragma mark - Get Request
+
 // 无进度回调, 无提示框
 + (MMURLSessionTask *)getWithUrl:(NSString *)url
                     refreshCache:(BOOL)refreshCache
@@ -229,7 +233,7 @@ static inline NSString *cachePath() {
     return [self MM_requestWithUrl:url
                       refreshCache:refreshCache
                          isShowHUD:false
-                           shoeHUD:nil
+                           showHUD:nil
                         httpMethod:1
                             params:nil
                           progress:nil
@@ -237,10 +241,158 @@ static inline NSString *cachePath() {
                               fail:fail];
 }
 
+// 无进度条 有提示框
++ (MMURLSessionTask *)getWithUrl:(NSString *)url
+                    refreshCache:(BOOL)refreshCache
+                         shoeHUD:(NSString *)statusText
+                         success:(MMResponseSuccess)success
+                            fail:(MMResponseFail)fail
+
+{
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:true
+                           showHUD:statusText
+                        httpMethod:1
+                            params:nil
+                          progress:nil
+                           success:success
+                              fail:fail];
+}
+
+// 无进度条 无提示框
++ (MMURLSessionTask *)getWithUrl:(NSString *)url
+                    refreshCache:(BOOL)refreshCache
+                          params:(NSDictionary *)params
+                         success:(MMResponseSuccess)success
+                            fail:(MMResponseFail)fail
+
+{
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:false
+                           showHUD:nil
+                        httpMethod:1
+                            params:params
+                          progress:nil
+                           success:success
+                              fail:fail];
+}
+
+// 无进度条 有提示框
++ (MMURLSessionTask *)getWithUrl:(NSString *)url
+                    refreshCache:(BOOL)refreshCache
+                         showHUD:(NSString *)statusText
+                          params:(NSDictionary *)params
+                         success:(MMResponseSuccess)success
+                            fail:(MMResponseFail)fail {
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:true
+                           showHUD:statusText
+                        httpMethod:1
+                            params:params
+                          progress:nil
+                           success:success
+                              fail:fail];
+}
+
+// 有进度回调 无提示框
++ (MMURLSessionTask *)getWithUrl:(NSString *)url
+                    refreshCache:(BOOL)refreshCache
+                          params:(NSDictionary *)params
+                        progress:(MMGetProgress)progress
+                         success:(MMResponseSuccess)success
+                            fail:(MMResponseFail)fail {
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:false
+                           showHUD:nil
+                        httpMethod:1
+                            params:params
+                          progress:progress
+                           success:success
+                              fail:fail];
+}
+
+// 有进度回调 有提示框
++ (MMURLSessionTask *)getWithUrl:(NSString *)url
+                    refreshCache:(BOOL)refreshCache
+                         showHUD:(NSString *)statusText
+                          params:(NSDictionary *)params
+                        progress:(MMGetProgress)progress
+                         success:(MMResponseSuccess)success
+                            fail:(MMResponseFail)fail {
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:true
+                           showHUD:statusText
+                        httpMethod:1
+                            params:params
+                          progress:progress
+                           success:success
+                              fail:fail];
+}
+#pragma mark - Post Request
+// 无进度回调 无提示框
++ (MMURLSessionTask *)postWithUrl:(NSString *)url
+                    refreshCache:(BOOL)refreshCache
+                          params:(NSDictionary *)params
+                         success:(MMResponseSuccess)success
+                            fail:(MMResponseFail)fail {
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:false
+                           showHUD:nil
+                        httpMethod:2
+                            params:params
+                          progress:nil
+                           success:success
+                              fail:fail];
+}
+
+// 有进度回调 无提示框
++ (MMURLSessionTask *)postWithUrl:(NSString *)url
+                     refreshCache:(BOOL)refreshCache
+                           params:(NSDictionary *)params
+                         progress:(MMPostProgress)progress
+                          success:(MMResponseSuccess)success
+                             fail:(MMResponseFail)fail {
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:false
+                           showHUD:nil
+                        httpMethod:2
+                            params:params
+                          progress:progress
+                           success:success
+                              fail:fail];
+}
+
+// 有进度回调 有提示框
++ (MMURLSessionTask *)postWithUrl:(NSString *)url
+                     refreshCache:(BOOL)refreshCache
+                          showHUD:(NSString *)statusText
+                           params:(NSDictionary *)params
+                         progress:(MMPostProgress)progress
+                          success:(MMResponseSuccess)success
+                             fail:(MMResponseFail)fail {
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:true
+                           showHUD:statusText
+                        httpMethod:2
+                            params:params
+                          progress:progress
+                           success:success
+                              fail:fail];
+}
+
+
 + (MMURLSessionTask *)MM_requestWithUrl:(NSString *)url
                            refreshCache:(BOOL)refreshCache
                               isShowHUD:(BOOL)isShowHud
-                                shoeHUD:(NSString *)statusText
+                                showHUD:(NSString *)statusText
                               httpMethod:(NSUInteger)httpMethod
                                  params:(NSDictionary *)params
                                progress:(MMDownloadProgress)progress
