@@ -638,6 +638,104 @@ static inline NSString *cachePath() {
     return session;
 }
 
++ (MMURLSessionTask *)uploadFileWithUrl:(NSString *)url
+                          uploadingFile:(NSString *)uploadingFile
+                               progress:(MMUploadProgress)progress
+                                success:(MMResponseSuccess)success
+                                   fail:(MMResponseFail)fail {
+    if (![NSURL URLWithString:uploadingFile]) {
+        return nil;
+    }
+    
+    NSURL *uploadURL = nil;
+    if ([self baseUrl] == nil) {
+        uploadURL = [NSURL URLWithString:url];
+    } else {
+        uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [self baseUrl], url]];
+    }
+    
+    if (!uploadURL) {
+        return nil;
+    }
+    
+    MMAppDotNetAPIClient *manager = [self manager];
+    NSURLRequest *request = [NSURLRequest requestWithURL:uploadURL];
+    MMURLSessionTask *session = nil;
+    
+    [manager uploadTaskWithStreamedRequest:request
+                                  progress:^(NSProgress * _Nonnull uploadProgress) {
+                                      if (progress) {
+                                          progress(uploadProgress.completedUnitCount, uploadProgress.totalUnitCount);
+                                      }
+                                  } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+                                      [[self allTasks] removeObject:session];
+                                      [self successResponse:responseObject callBack:success];
+                                      
+                                      if (error) {
+                                          [self handleCallbackWithError:error fail:fail];
+                                          
+                                          if ([self isDebug]) {
+                                              [self logWithFailError:error url:response.URL.absoluteString params:nil];
+                                          }
+                                      } else {
+                                          if ([self isDebug]) {
+                                              [self logWithSuccessResponse:responseObject
+                                                                       url:response.URL.absoluteString
+                                                                    params:nil];
+                                          }
+                                      }
+                                      
+                                  }];
+    
+    if (session) {
+        [[self allTasks] addObject:session];
+    }
+    
+    return session;
+}
+
++ (MMURLSessionTask *)uploadWithImage:(UIImage *)image url:(NSString *)url filename:(NSString *)filename name:(NSString *)name mimeType:(NSString *)mimeType parameters:(NSDictionary *)parameters progress:(MMUploadProgress)progress success:(MMResponseSuccess)success fail:(MMResponseFail)fail {
+    
+    if (![self baseUrl]) {
+        if (![NSURL URLWithString:url]) {
+            return nil;
+        }
+    } else {
+        if (![NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [self baseUrl], url]]) {
+            return nil;
+        }
+    }
+    
+    if ([self shouldEncode]) {
+        url = [self encodeUrl:url];
+    }
+    
+    NSString *absolute = [self absoluteUrlWithPath:url];
+    
+    MMAppDotNetAPIClient *manager = [self manager];
+    MMURLSessionTask *session = [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+        NSString *imageFileName = filename;
+        
+        if (!filename || ![filename isKindOfClass:[NSString class]] || filename.length == 0) {
+            NSDateFormatter *formatter = [NSDateFormatter new];
+            formatter.da
+        }
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
+    if (session) {
+        [[self allTasks] addObject:session];
+    }
+    
+    return session;
+}
+
 + (NSString *)encodeUrl:(NSString *)url {
     return [self MM_URLEncode:url];
 }
