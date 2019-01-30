@@ -89,13 +89,13 @@ static MMAppDotNetAPIClient *MM_sharedManager = nil;
 @implementation MMNetWroking
 
 + (void)cacheGetRequest:(BOOL)isCacheGet shouldCachePost:(BOOL)shouldCachePost {
-    MM_cacheGet = isCacheGet;
+    MM_cacheGet  = isCacheGet;
     MM_cachePost = shouldCachePost;
 }
 
 + (void)updateBaseUrl:(NSString *)baseUrl {
     if ([baseUrl isEqualToString:MM_privateNetworkBaseUrl] && baseUrl && baseUrl.length) {
-       MM_isBaseURLChanged = true;
+        MM_isBaseURLChanged = true;
     } else {
         MM_isBaseURLChanged = false;
     }
@@ -105,7 +105,6 @@ static MMAppDotNetAPIClient *MM_sharedManager = nil;
 + (NSString *)baseUrl {
     return MM_privateNetworkBaseUrl;
 }
-
 
 
 + (void)setTimeout:(NSTimeInterval)timeout {
@@ -209,9 +208,9 @@ static inline NSString *cachePath() {
              responseType:(MMResponseType)responseType
       shouldAutoEncodeUrl:(BOOL)shouldAutoEncode
   callbackOnCancelRequest:(BOOL)shouldCallbackOnCancelRequest {
-    MM_requestType = requestType;
-    MM_responseType = responseType;
-    MM_shouldAutoEncode = shouldAutoEncode;
+    MM_requestType                   = requestType;
+    MM_responseType                  = responseType;
+    MM_shouldAutoEncode              = shouldAutoEncode;
     MM_shouldCallbackOnCancelRequest = shouldCallbackOnCancelRequest;
 }
 
@@ -246,9 +245,7 @@ static inline NSString *cachePath() {
                     refreshCache:(BOOL)refreshCache
                          shoeHUD:(NSString *)statusText
                          success:(MMResponseSuccess)success
-                            fail:(MMResponseFail)fail
-
-{
+                            fail:(MMResponseFail)fail {
     return [self MM_requestWithUrl:url
                       refreshCache:refreshCache
                          isShowHUD:true
@@ -265,9 +262,7 @@ static inline NSString *cachePath() {
                     refreshCache:(BOOL)refreshCache
                           params:(NSDictionary *)params
                          success:(MMResponseSuccess)success
-                            fail:(MMResponseFail)fail
-
-{
+                            fail:(MMResponseFail)fail {
     return [self MM_requestWithUrl:url
                       refreshCache:refreshCache
                          isShowHUD:false
@@ -333,17 +328,37 @@ static inline NSString *cachePath() {
                            success:success
                               fail:fail];
 }
+
 #pragma mark - Post Request
+
 // 无进度回调 无提示框
 + (MMURLSessionTask *)postWithUrl:(NSString *)url
-                    refreshCache:(BOOL)refreshCache
-                          params:(NSDictionary *)params
-                         success:(MMResponseSuccess)success
-                            fail:(MMResponseFail)fail {
+                     refreshCache:(BOOL)refreshCache
+                           params:(NSDictionary *)params
+                          success:(MMResponseSuccess)success
+                             fail:(MMResponseFail)fail {
     return [self MM_requestWithUrl:url
                       refreshCache:refreshCache
                          isShowHUD:false
                            showHUD:nil
+                        httpMethod:2
+                            params:params
+                          progress:nil
+                           success:success
+                              fail:fail];
+}
+
+// 无进度回调 有提示框
++ (MMURLSessionTask *)postWithUrl:(NSString *)url
+                     refreshCache:(BOOL)refreshCache
+                          showHUD:(NSString *)statusText
+                           params:(NSDictionary *)params
+                          success:(MMResponseSuccess)success
+                             fail:(MMResponseFail)fail {
+    return [self MM_requestWithUrl:url
+                      refreshCache:refreshCache
+                         isShowHUD:true
+                           showHUD:statusText
                         httpMethod:2
                             params:params
                           progress:nil
@@ -393,7 +408,7 @@ static inline NSString *cachePath() {
                            refreshCache:(BOOL)refreshCache
                               isShowHUD:(BOOL)isShowHud
                                 showHUD:(NSString *)statusText
-                              httpMethod:(NSUInteger)httpMethod
+                             httpMethod:(NSUInteger)httpMethod
                                  params:(NSDictionary *)params
                                progress:(MMDownloadProgress)progress
                                 success:(MMResponseSuccess)success
@@ -412,15 +427,15 @@ static inline NSString *cachePath() {
         url = [self encodeUrl:url];
     }
 
-    MMAppDotNetAPIClient *manager = [self manager];
-    NSString *absolute = [self absoluteUrlWithPath:url];
-    
+    MMAppDotNetAPIClient *manager  = [self manager];
+    NSString             *absolute = [self absoluteUrlWithPath:url];
+
     MMURLSessionTask *session = nil;
-    
+
     if (isShowHud) {
         [MMNetWroking showHUD:statusText];
     }
-    
+
     if (httpMethod == 1) {
         if (MM_cacheGet) {
             if (MM_shouldObtainLocalWhenUnconnected) {
@@ -433,7 +448,7 @@ static inline NSString *cachePath() {
                             // 这里 block 也可以传递
                             [self successResponse:response
                                          callBack:success];
-                            
+
                             if ([self isDebug]) {
                                 [self logWithSuccessResponse:response
                                                          url:url
@@ -445,7 +460,7 @@ static inline NSString *cachePath() {
                 }
             }
         }
-        
+
         // 不刷新缓存
         if (!refreshCache) {
             id response = [MMNetWroking cacheResponseWithURL:absolute
@@ -453,7 +468,7 @@ static inline NSString *cachePath() {
             if (response) {
                 if (success) {
                     [self successResponse:response callBack:success];
-                    
+
                     if ([self isDebug]) {
                         [self logWithSuccessResponse:response
                                                  url:absolute
@@ -463,76 +478,76 @@ static inline NSString *cachePath() {
                 return nil;
             }
         }
-        
-        session  = [manager GET:url
-                     parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
-                         if (progress) {
-                             progress(downloadProgress.completedUnitCount, downloadProgress.totalUnitCount);
-                         }
-                     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                         if (isShowHud) {
-                             [MMNetWroking dismissSuccessHUD];
-                         }
-                         
-                         [[self allTasks] removeObject:task];
-                         
-                         [self successResponse:responseObject callBack:success];
-                         
-                         if (MM_cacheGet) {
-                             [self cacheResponseObject:responseObject
-                                               request:task.currentRequest
-                                                params:params];
-                         }
-                         
-                         if ([self isDebug]) {
-                             [self logWithSuccessResponse:responseObject
-                                                      url:absolute
-                                                   params:params];
-                         }
-                     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                         if (isShowHud) {
-                             [MMNetWroking dismissErrorHUD];
-                         }
-                         [[self allTasks] removeObject:task];
-                         
-                         if ([error code] < 0 && MM_cacheGet) {
-                             id response = [MMNetWroking cacheResponseWithURL:absolute
-                                                                       params:params];
-                             if (response) {
-                                 if (success) {
-                                     [self successResponse:response callBack:success];
-                                     
-                                     if ([self isDebug]) {
-                                         [self logWithSuccessResponse:response
-                                                                  url:absolute
-                                                               params:params];
-                                     }
-                                 }
-                             } else {
-                                 [self handleCallbackWithError:error fail:fail];
-                                 
-                                 if ([self isDebug]) {
-                                     [self logWithFailError:error url:absolute params:params];
-                                 }
-                             }
-                         } else {
-                             [self handleCallbackWithError:error fail:fail];
-                             if ([self isDebug]) {
-                                 [self logWithFailError:error url:absolute params:params];
-                             }
-                         }
-                         
-                     }];
+
+        session = [manager GET:url
+                    parameters:params progress:^(NSProgress *_Nonnull downloadProgress) {
+                    if (progress) {
+                        progress(downloadProgress.completedUnitCount, downloadProgress.totalUnitCount);
+                    }
+                }      success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
+                    if (isShowHud) {
+                        [MMNetWroking dismissSuccessHUD];
+                    }
+
+                    [[self allTasks] removeObject:task];
+
+                    [self successResponse:responseObject callBack:success];
+
+                    if (MM_cacheGet) {
+                        [self cacheResponseObject:responseObject
+                                          request:task.currentRequest
+                                           params:params];
+                    }
+
+                    if ([self isDebug]) {
+                        [self logWithSuccessResponse:responseObject
+                                                 url:absolute
+                                              params:params];
+                    }
+                }      failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+                    if (isShowHud) {
+                        [MMNetWroking dismissErrorHUD];
+                    }
+                    [[self allTasks] removeObject:task];
+
+                    if ([error code] < 0 && MM_cacheGet) {
+                        id response = [MMNetWroking cacheResponseWithURL:absolute
+                                                                  params:params];
+                        if (response) {
+                            if (success) {
+                                [self successResponse:response callBack:success];
+
+                                if ([self isDebug]) {
+                                    [self logWithSuccessResponse:response
+                                                             url:absolute
+                                                          params:params];
+                                }
+                            }
+                        } else {
+                            [self handleCallbackWithError:error fail:fail];
+
+                            if ([self isDebug]) {
+                                [self logWithFailError:error url:absolute params:params];
+                            }
+                        }
+                    } else {
+                        [self handleCallbackWithError:error fail:fail];
+                        if ([self isDebug]) {
+                            [self logWithFailError:error url:absolute params:params];
+                        }
+                    }
+
+                }];
     } else if (httpMethod == 2) {
         if (MM_cachePost) { // 获取缓存
             if (MM_shouldObtainLocalWhenUnconnected) {
                 if (MM_networkStatus == kMMNetworkStatusNotReachable || MM_networkStatus == kMMNetworkStatusUnknown) {
                     id response = [MMNetWroking cacheResponseWithURL:absolute params:params];
-                    
+
                     if (response) {
                         if (success) {
                             [self successResponse:response callBack:success];
-                            
+
                             if ([self isDebug]) {
                                 [self logWithSuccessResponse:response
                                                          url:absolute
@@ -543,16 +558,16 @@ static inline NSString *cachePath() {
                     }
                 }
             }
-            
+
             if (!refreshCache) {
                 id response = [MMNetWroking cacheResponseWithURL:absolute
                                                           params:params];
-                
+
                 if (response) {
                     if (success) {
                         [self successResponse:response
                                      callBack:success];
-                        
+
                         if ([self isDebug]) {
                             [self logWithSuccessResponse:response
                                                      url:absolute
@@ -563,78 +578,78 @@ static inline NSString *cachePath() {
                 }
             }
         }
-        
+
         session = [manager POST:url parameters:params
-                       progress:^(NSProgress * _Nonnull uploadProgress) {
+                       progress:^(NSProgress *_Nonnull uploadProgress) {
                            if (progress) {
                                progress(uploadProgress.completedUnitCount, uploadProgress.totalUnitCount);
                            }
-                           
-                       } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                           if (isShowHud) {
-                               [MMNetWroking dismissSuccessHUD];
-                           }
-                           
-                           [[self allTasks] removeObject:task];
-                           
-                           [self successResponse:responseObject callBack:success];
-                           
-                           if (MM_cachePost) {
-                               [self cacheResponseObject:responseObject
-                                                 request:task.currentRequest
-                                                  params:params];
-                           }
-                           
-                           if ([self isDebug]) {
-                               [self logWithSuccessResponse:responseObject
-                                                        url:absolute
-                                                     params:params];
-                           }
-                       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                           
-                           if (isShowHud) {
-                               [MMNetWroking dismissErrorHUD];
-                           }
-                           
-                           [[self allTasks] removeObject:task];
-                           if ([error code] < 0 && MM_cachePost) {
-                               id response = [MMNetWroking cacheResponseWithURL:absolute params:params];
-                               
-                               if (response) {
-                                   if (success) {
-                                       [self successResponse:response callBack:success];
-                                       
-                                       if ([self isDebug]) {
-                                           [self logWithSuccessResponse:response
-                                                                    url:absolute
-                                                                 params:params];
-                                       }
-                                   }
-                               } else {
-                                   [self handleCallbackWithError:error fail:fail];
-                                   
-                                   if ([self isDebug]) {
-                                       [self logWithSuccessResponse:response
-                                                                url:absolute
-                                                             params:params];
-                                   }
-                               }
-                           } else {
-                               [self  handleCallbackWithError:error fail:fail];
-                               if ([self isDebug]) {
-                                   [self logWithFailError:error
-                                                      url:absolute
-                                                   params:params];
-                               }
-                           }
-                       }];
-        
+
+                       } success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
+                    if (isShowHud) {
+                        [MMNetWroking dismissSuccessHUD];
+                    }
+
+                    [[self allTasks] removeObject:task];
+
+                    [self successResponse:responseObject callBack:success];
+
+                    if (MM_cachePost) {
+                        [self cacheResponseObject:responseObject
+                                          request:task.currentRequest
+                                           params:params];
+                    }
+
+                    if ([self isDebug]) {
+                        [self logWithSuccessResponse:responseObject
+                                                 url:absolute
+                                              params:params];
+                    }
+                }       failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+
+                    if (isShowHud) {
+                        [MMNetWroking dismissErrorHUD];
+                    }
+
+                    [[self allTasks] removeObject:task];
+                    if ([error code] < 0 && MM_cachePost) {
+                        id response = [MMNetWroking cacheResponseWithURL:absolute params:params];
+
+                        if (response) {
+                            if (success) {
+                                [self successResponse:response callBack:success];
+
+                                if ([self isDebug]) {
+                                    [self logWithSuccessResponse:response
+                                                             url:absolute
+                                                          params:params];
+                                }
+                            }
+                        } else {
+                            [self handleCallbackWithError:error fail:fail];
+
+                            if ([self isDebug]) {
+                                [self logWithSuccessResponse:response
+                                                         url:absolute
+                                                      params:params];
+                            }
+                        }
+                    } else {
+                        [self handleCallbackWithError:error fail:fail];
+                        if ([self isDebug]) {
+                            [self logWithFailError:error
+                                               url:absolute
+                                            params:params];
+                        }
+                    }
+                }];
+
     }
-    
+
     if (session) {
         [[self allTasks] addObject:session];
     }
-    
+
     return session;
 }
 
@@ -646,56 +661,56 @@ static inline NSString *cachePath() {
     if (![NSURL URLWithString:uploadingFile]) {
         return nil;
     }
-    
+
     NSURL *uploadURL = nil;
     if ([self baseUrl] == nil) {
         uploadURL = [NSURL URLWithString:url];
     } else {
         uploadURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [self baseUrl], url]];
     }
-    
+
     if (!uploadURL) {
         return nil;
     }
-    
+
     MMAppDotNetAPIClient *manager = [self manager];
-    NSURLRequest *request = [NSURLRequest requestWithURL:uploadURL];
-    MMURLSessionTask *session = nil;
-    
+    NSURLRequest         *request = [NSURLRequest requestWithURL:uploadURL];
+    MMURLSessionTask     *session = nil;
+
     [manager uploadTaskWithStreamedRequest:request
-                                  progress:^(NSProgress * _Nonnull uploadProgress) {
+                                  progress:^(NSProgress *_Nonnull uploadProgress) {
                                       if (progress) {
                                           progress(uploadProgress.completedUnitCount, uploadProgress.totalUnitCount);
                                       }
-                                  } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-                                      [[self allTasks] removeObject:session];
-                                      [self successResponse:responseObject callBack:success];
-                                      
-                                      if (error) {
-                                          [self handleCallbackWithError:error fail:fail];
-                                          
-                                          if ([self isDebug]) {
-                                              [self logWithFailError:error url:response.URL.absoluteString params:nil];
-                                          }
-                                      } else {
-                                          if ([self isDebug]) {
-                                              [self logWithSuccessResponse:responseObject
-                                                                       url:response.URL.absoluteString
-                                                                    params:nil];
-                                          }
-                                      }
-                                      
-                                  }];
-    
+                                  } completionHandler:^(NSURLResponse *_Nonnull response, id _Nullable responseObject, NSError *_Nullable error) {
+                [[self allTasks] removeObject:session];
+                [self successResponse:responseObject callBack:success];
+
+                if (error) {
+                    [self handleCallbackWithError:error fail:fail];
+
+                    if ([self isDebug]) {
+                        [self logWithFailError:error url:response.URL.absoluteString params:nil];
+                    }
+                } else {
+                    if ([self isDebug]) {
+                        [self logWithSuccessResponse:responseObject
+                                                 url:response.URL.absoluteString
+                                              params:nil];
+                    }
+                }
+
+            }];
+
     if (session) {
         [[self allTasks] addObject:session];
     }
-    
+
     return session;
 }
 
 + (MMURLSessionTask *)uploadWithImage:(UIImage *)image url:(NSString *)url filename:(NSString *)filename name:(NSString *)name mimeType:(NSString *)mimeType parameters:(NSDictionary *)parameters progress:(MMUploadProgress)progress success:(MMResponseSuccess)success fail:(MMResponseFail)fail {
-    
+
     if (![self baseUrl]) {
         if (![NSURL URLWithString:url]) {
             return nil;
@@ -705,39 +720,289 @@ static inline NSString *cachePath() {
             return nil;
         }
     }
-    
+
     if ([self shouldEncode]) {
         url = [self encodeUrl:url];
     }
-    
+
     NSString *absolute = [self absoluteUrlWithPath:url];
-    
+
     MMAppDotNetAPIClient *manager = [self manager];
-    MMURLSessionTask *session = [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    MMURLSessionTask     *session = [manager POST:url parameters:parameters constructingBodyWithBlock:^(id <AFMultipartFormData> _Nonnull formData) {
+        NSData   *imageData     = UIImageJPEGRepresentation(image, 1);
         NSString *imageFileName = filename;
-        
+
         if (!filename || ![filename isKindOfClass:[NSString class]] || filename.length == 0) {
             NSDateFormatter *formatter = [NSDateFormatter new];
-            formatter.da
+            formatter.dateFormat = @"yyyyMMddHHmmss";
+            NSString *str = [formatter stringFromDate:[NSDate date]];
+            imageFileName = [NSString stringWithFormat:@"%@.jpg", str];
         }
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+
+        [formData appendPartWithFileData:imageData name:name
+                                fileName:filename
+                                mimeType:mimeType];
+    }                                    progress:^(NSProgress *_Nonnull uploadProgress) {
+        if (progress) {
+            progress(uploadProgress.completedUnitCount, uploadProgress.totalUnitCount);
+        }
+    }                                     success:^(NSURLSessionDataTask *_Nonnull task, id _Nullable responseObject) {
+        [[self allTasks] removeObject:task];
+        [self successResponse:responseObject callBack:success];
+
+        if ([self isDebug]) {
+            [self logWithSuccessResponse:responseObject
+                                     url:absolute
+                                  params:parameters];
+        }
+    }                                     failure:^(NSURLSessionDataTask *_Nullable task, NSError *_Nonnull error) {
+        [[self allTasks] removeObject:task];
+
+        [self handleCallbackWithError:error
+                                 fail:fail];
+        if ([self isDebug]) {
+            [self logWithFailError:error
+                               url:absolute params:nil];
+        }
     }];
-    
+
     if (session) {
         [[self allTasks] addObject:session];
     }
-    
+
     return session;
+}
+
++ (MMURLSessionTask *)downloadWithUrl:(NSString *)url saveToPath:(NSString *)saveToPath progress:(MMDownloadProgress)progressBlock success:(MMResponseSuccess)success fail:(MMResponseFail)fail {
+    if (![self baseUrl]) {
+        if (![NSURL URLWithString:url]) {
+            return nil;
+        }
+    } else {
+        if ([NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [self baseUrl], url]] == nil) {
+            return nil;
+        }
+    }
+    NSURLRequest         *downloadRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    MMAppDotNetAPIClient *manager         = [self manager];
+
+    MMURLSessionTask *session = nil;
+    session = [manager downloadTaskWithRequest:downloadRequest
+                                      progress:^(NSProgress *downloadProgress) {
+                                          if (progressBlock) {
+                                              progressBlock(downloadProgress.completedUnitCount, downloadProgress.totalUnitCount);
+                                          }
+                                      } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+                return [NSURL fileURLWithPath:saveToPath];
+            }                completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                [[self allTasks] removeObject:session];
+
+                if (error == nil) {
+                    if (success) {
+                        success(filePath.absoluteString);
+                    }
+
+                    if ([self isDebug]) {
+                        NSLog(@"Download success for url %@",
+                                [self absoluteUrlWithPath:url]);
+                    }
+                } else {
+                    [self handleCallbackWithError:error fail:fail];
+
+                    if ([self isDebug]) {
+                        NSLog(@"Download fail for url %@, reason : %@",
+                                [self absoluteUrlWithPath:url],
+                                [error description]);
+                    }
+                }
+            }];
+
+    if (session) {
+        [[self allTasks] addObject:session];
+    }
+    return session;
+}
+
+
+#pragma mark - Private
+
++ (MMAppDotNetAPIClient *)manager {
+    @synchronized (self) {
+        if (!MM_sharedManager || MM_isBaseURLChanged) {
+            // 开启转菊花
+            [AFNetworkActivityIndicatorManager sharedManager].enabled = true;
+
+            MMAppDotNetAPIClient *manager = nil;
+            if ([self baseUrl]) {
+                manager = [[MMAppDotNetAPIClient sharedClient] initWithBaseURL:[NSURL URLWithString:[self baseUrl]]];
+            } else {
+                manager = [MMAppDotNetAPIClient sharedClient];
+            }
+
+            switch (MM_requestType) {
+                case kMMRequestTypeJSON: {
+                    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+                    break;
+                }
+
+                case kMMRequestTypePlainText: {
+                    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+                    break;
+                }
+                default:
+                    break;
+            }
+
+            switch (MM_responseType) {
+                case kMMResponseTypeJSON: {
+                    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+                    break;
+                }
+                case kMMResponseTypeXML: {
+                    manager.responseSerializer = [AFXMLParserResponseSerializer serializer];
+                    break;
+                }
+                case kMMResponseTypeData: {
+                    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+                    break;
+                }
+                default:
+                    break;
+            }
+
+            manager.requestSerializer.stringEncoding = NSUTF8StringEncoding;
+
+            for (NSString *key in MM_httpHeaders.allKeys) {
+                if (MM_httpHeaders[key]) {
+                    [manager.requestSerializer setValue:MM_httpHeaders[key]
+                                     forHTTPHeaderField:key];
+                }
+            }
+
+            // 设置cookie
+
+            manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[
+                    @"application/json",
+                    @"text/html",
+                    @"text/json",
+                    @"text/plain",
+                    @"text/javascript",
+                    @"text/xml",
+                    @"image/*"
+            ]];
+
+            manager.requestSerializer.timeoutInterval          = MM_timeout;
+            manager.operationQueue.maxConcurrentOperationCount = 3;
+            MM_sharedManager = manager;
+        }
+    }
+
+    return MM_sharedManager;
+}
+
+
++ (void)logWithSuccessResponse:(id)response url:(NSString *)url params:(NSDictionary *)params {
+    NSLog(@"\n");
+    NSLog(@"\nRequest success, URL: %@\n params:%@\n response:%@\n\n",
+            [self generateGETAbsoluteURL:url params:params],
+            params,
+            [self tryToParseData:response]
+    );
+}
+
++ (void)logWithFailError:(NSError *)error url:(NSString *)url params:(id)params {
+    NSString *format = @" params: ";
+    if (params == nil || ![params isKindOfClass:[NSDictionary class]]) {
+        format = @"";
+        params = @"";
+    }
+
+    NSLog(@"\n");
+    if ([error code] == NSURLErrorCancelled) {
+        NSLog(@"\nRequest was canceled mannully, URL: %@ %@%@\n\n",
+                [self generateGETAbsoluteURL:url params:params],
+                format,
+                params);
+    } else {
+        NSLog(@"\nRequest error, URL: %@ %@%@\n errorInfos:%@\n\n",
+                [self generateGETAbsoluteURL:url params:params],
+                format,
+                params,
+                [error localizedDescription]);
+    }
+}
+
+
++ (NSString *)generateGETAbsoluteURL:(NSString *)url params:(NSDictionary *)params {
+    if (params == nil || ![params isKindOfClass:[NSDictionary class]] || params.count == 0) {
+        return url;
+    }
+
+    NSString      *queries = @"";
+    for (NSString *key in params) {
+        id value = [params objectForKey:key];
+
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            continue;
+        } else if ([value isKindOfClass:[NSArray class]]) {
+            continue;
+        } else if ([value isKindOfClass:[NSSet class]]) {
+            continue;
+        } else {
+            queries = [NSString stringWithFormat:@"%@%@=%@&",
+                                                 (queries.length == 0 ? @"&" : queries),
+                                                 key,
+                                                 value];
+        }
+    }
+
+    if (queries.length > 1) {
+        // 去&
+        queries = [queries substringToIndex:queries.length - 1];
+    }
+
+    if (([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) && queries.length > 1) {
+        if ([url rangeOfString:@"?"].location != NSNotFound ||
+                [url rangeOfString:@"#"].location != NSNotFound) {
+            url = [NSString stringWithFormat:@"%@%@", url, queries];
+        } else {
+            queries = [queries substringFromIndex:1];
+            url     = [NSString stringWithFormat:@"%@%@", url, queries];
+        }
+    }
+
+    return url.length == 0 ? queries : url;
 }
 
 + (NSString *)encodeUrl:(NSString *)url {
     return [self MM_URLEncode:url];
+}
+
++ (id)tryToParseData:(id)json {
+    if (!json || json == (id) kCFNull) return nil;
+    NSDictionary *dic      = nil;
+    NSData       *jsonData = nil;
+    if ([json isKindOfClass:[NSDictionary class]]) {
+        dic = json;
+    } else if ([json isKindOfClass:[NSString class]]) {
+        jsonData = [(NSString *) json dataUsingEncoding:NSUTF8StringEncoding];
+    } else if ([json isKindOfClass:[NSData class]]) {
+        jsonData = json;
+    }
+
+    if (jsonData) {
+        dic = [NSJSONSerialization JSONObjectWithData:jsonData
+                                              options:kNilOptions
+                                                error:nil];
+        if (![dic isKindOfClass:[NSDictionary class]]) dic = nil;
+    }
+    return dic;
+}
+
++ (void)successResponse:(id)responseData callBack:(MMResponseSuccess)success {
+    if (success) {
+        success([self tryToParseData:responseData]);
+    }
 }
 
 + (NSString *)MM_URLEncode:(NSString *)url {
@@ -779,155 +1044,63 @@ static inline NSString *cachePath() {
     }
 }
 
++ (id)cacheResponseWithURL:(NSString *)url params:params {
+    id cacheData = nil;
+    if (url) {
+        NSString *dirPath     = cachePath();
+        NSString *absoluteURL = [self generateGETAbsoluteURL:url params:params];
+        NSString *key         = [absoluteURL md5String];
+        NSString *path        = [dirPath stringByAppendingPathComponent:key];
 
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
+        if (data) {
+            cacheData = data;
+            NSLog(@"Read data from cache for url: %@\n", url);
+        }
+    }
+    return cacheData;
+}
 
++ (void)cacheResponseObject:(id)responseObject request:(NSURLRequest *)request params:params {
+    if (request && responseObject && ![responseObject isKindOfClass:[NSNull class]]) {
+        NSString *dirPath = cachePath();
+        NSError  *error   = nil;
+        if (![[NSFileManager defaultManager] fileExistsAtPath:dirPath
+                                                  isDirectory:nil]) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:dirPath
+                                      withIntermediateDirectories:true
+                                                       attributes:nil
+                                                            error:&error];
 
-#pragma mark - Private
-+ (MMAppDotNetAPIClient *)manager {
-    @synchronized (self) {
-        if (!MM_sharedManager || MM_isBaseURLChanged) {
-            // 开启转菊花
-            [AFNetworkActivityIndicatorManager sharedManager].enabled = true;
-            
-            MMAppDotNetAPIClient *manager = nil;
-            if ([self baseUrl]) {
-                manager = [[MMAppDotNetAPIClient sharedClient] initWithBaseURL:[NSURL URLWithString:[self baseUrl]]];
+            if (error) {
+                NSLog(@"Create cache dir error: %@\n", error);
+                return;
+            }
+        }
+
+        NSString     *absoluteURL = [self generateGETAbsoluteURL:request.URL.absoluteString params:params];
+        NSString     *key         = [absoluteURL md5String];
+        NSString     *path        = [dirPath stringByAppendingString:key];
+        NSDictionary *dict        = (NSDictionary *) responseObject;
+        NSData       *data        = nil;
+        if ([dict isKindOfClass:[NSData class]]) {
+            data = responseObject;
+        } else {
+            data = [NSJSONSerialization dataWithJSONObject:dict
+                                                   options:NSJSONWritingPrettyPrinted
+                                                     error:&error];
+        }
+        if (data && error == nil) {
+            BOOL isOk = [[NSFileManager defaultManager] createFileAtPath:path
+                                                                contents:data
+                                                              attributes:nil];
+            if (isOk) {
+                NSLog(@"cache file ok for request: %@\n", absoluteURL);
             } else {
-                manager = [MMAppDotNetAPIClient sharedClient];
+                NSLog(@"cache file error for request: %@\n", absoluteURL);
             }
-            
-            switch (MM_requestType) {
-                case kMMRequestTypeJSON:{
-                    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-                    break;
-                }
-                    
-                case kMMRequestTypePlainText: {
-                    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
-                    break;
-                }
-                default:
-                    break;
-            }
-            
-            switch (MM_responseType) {
-                case kMMResponseTypeJSON: {
-                    manager.responseSerializer = [AFJSONResponseSerializer serializer];
-                    break;
-                }
-                case kMMResponseTypeXML: {
-                    manager.responseSerializer = [AFXMLParserResponseSerializer serializer];
-                    break;
-                }
-                case kMMResponseTypeData: {
-                    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-                    break;
-                }
-                default:
-                    break;
-            }
-            
-            manager.requestSerializer.stringEncoding = NSUTF8StringEncoding;
-            
-            for (NSString *key in MM_httpHeaders.allKeys) {
-                if (MM_httpHeaders[key]) {
-                    [manager.requestSerializer setValue:MM_httpHeaders[key]
-                                     forHTTPHeaderField:key];
-                }
-            }
-            
-            // 设置cookie
-
-            manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[
-                    @"application/json",
-                    @"text/html",
-                    @"text/json",
-                    @"text/plain",
-                    @"text/javascript",
-                    @"text/xml",
-                    @"image/*"
-                    ]];
-
-            manager.requestSerializer.timeoutInterval = MM_timeout;
-            manager.operationQueue.maxConcurrentOperationCount = 3;
-            MM_sharedManager = manager;
         }
     }
-
-    return MM_sharedManager;
-}
-
-+ (void)logWithSuccessResponse:(id)response url:(NSString *)url params:(NSDictionary *)params {
-    NSLog(@"\n");
-    NSLog(@"\nRequest success, URL: %@\n params:%@\n response:%@\n\n",
-          [self generateGETAbsoluteURL:url params:params],
-          params,
-          [self tryToParseData:response]
-          );
-}
-
-+ (void)logWithFailError:(NSError *)error url:(NSString *)url params:(id)params {
-    NSString *format = @" params: ";
-    if (params == nil || ![params isKindOfClass:[NSDictionary class]]) {
-        format = @"";
-        params = @"";
-    }
-    
-    NSLog(@"\n");
-    if ([error code] == NSURLErrorCancelled) {
-        NSLog(@"\nRequest was canceled mannully, URL: %@ %@%@\n\n",
-              [self generateGETAbsoluteURL:url params:params],
-              format,
-              params);
-    } else {
-        NSLog(@"\nRequest error, URL: %@ %@%@\n errorInfos:%@\n\n",
-              [self generateGETAbsoluteURL:url params:params],
-              format,
-              params,
-              [error localizedDescription]);
-    }
-}
-
-
-+ (NSString *)generateGETAbsoluteURL:(NSString *)url params:(NSDictionary *)params {
-    if (params == nil || ![params isKindOfClass:[NSDictionary class]] || params.count == 0) {
-        return url;
-    }
-    
-    NSString *queries = @"";
-    for (NSString *key in params) {
-        id value = [params objectForKey:key];
-        
-        if ([value isKindOfClass:[NSDictionary class]]) {
-            continue;
-        } else if ([value isKindOfClass:[NSArray class]]) {
-            continue;
-        } else if ([value isKindOfClass:[NSSet class]]) {
-            continue;
-        } else {
-            queries = [NSString stringWithFormat:@"%@%@=%@&",
-                       (queries.length == 0 ? @"&" : queries),
-                       key,
-                       value];
-        }
-    }
-    
-    if (queries.length > 1) {
-        // 去&
-        queries = [queries substringToIndex:queries.length - 1];
-    }
-    
-    if (([url hasPrefix:@"http://"] || [url hasPrefix:@"https://"]) && queries.length > 1) {
-        if ([url rangeOfString:@"?"].location != NSNotFound ||
-            [url rangeOfString:@"#"].location != NSNotFound) {
-            url = [NSString stringWithFormat:@"%@%@", url, queries];
-        } else {
-            queries = [queries substringFromIndex:1];
-            url = [NSString stringWithFormat:@"%@%@", url, queries];
-        }
-    }
-    
-    return url.length == 0 ? queries : url;
 }
 
 + (NSString *)absoluteUrlWithPath:(NSString *)path {
@@ -971,92 +1144,14 @@ static inline NSString *cachePath() {
 
 
 
-+ (id)cacheResponseWithURL:(NSString *)url params:params {
-    id cacheData = nil;
-    if (url) {
-        NSString *dirPath = cachePath();
-        NSString *absoluteURL = [self generateGETAbsoluteURL:url params:params];
-        NSString *key = [absoluteURL md5String];
-        NSString *path = [dirPath stringByAppendingPathComponent:key];
-        
-        NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
-        if (data) {
-            cacheData = data;
-            NSLog(@"Read data from cache for url: %@\n", url);
-        }
-    }
-    return cacheData;
-}
-
-+ (void)cacheResponseObject:(id)responseObject request:(NSURLRequest *)request params:params {
-    if (request && responseObject && ![responseObject isKindOfClass:[NSNull class]]) {
-        NSString *dirPath = cachePath();
-        NSError *error = nil;
-        if (![[NSFileManager defaultManager] fileExistsAtPath:dirPath
-                                                  isDirectory:nil]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:dirPath
-                                      withIntermediateDirectories:true
-                                                       attributes:nil
-                                                            error:&error];
-            
-            if (error) {
-                NSLog(@"Create cache dir error: %@\n", error);
-                return;
-            }
-        }
-        
-        NSString *absoluteURL = [self generateGETAbsoluteURL:request.URL.absoluteString params:params];
-        NSString *key = [absoluteURL md5String];
-        NSString *path = [dirPath stringByAppendingString:key];
-        NSDictionary *dict = (NSDictionary *)responseObject;
-        NSData *data = nil;
-        if ([dict isKindOfClass:[NSData class]]) {
-            data = responseObject;
-        } else {
-            data = [NSJSONSerialization dataWithJSONObject:dict
-                                                   options:NSJSONWritingPrettyPrinted
-                                                     error:&error];
-        }
-        if (data && error == nil) {
-            BOOL isOk = [[NSFileManager defaultManager] createFileAtPath:path
-                                                                contents:data
-                                                              attributes:nil];
-            if (isOk) {
-                NSLog(@"cache file ok for request: %@\n", absoluteURL);
-            } else {
-                NSLog(@"cache file error for request: %@\n", absoluteURL);
-            }
-        }
-    }
-}
 
 
-+ (void)successResponse:(id)responseData callBack:(MMResponseSuccess)success {
-    if (success) {
-        success([self tryToParseData:responseData]);
-    }
-}
 
-+ (id)tryToParseData:(id)json {
-    if (!json || json == (id)kCFNull) return nil;
-    NSDictionary *dic = nil;
-    NSData *jsonData = nil;
-    if ([json isKindOfClass:[NSDictionary class]]) {
-        dic = json;
-    } else if ([json isKindOfClass:[NSString class]]) {
-        jsonData = [(NSString *)json dataUsingEncoding:NSUTF8StringEncoding];
-    } else if ([json isKindOfClass:[NSData class]]) {
-        jsonData = json;
-    }
-    
-    if (jsonData) {
-        dic = [NSJSONSerialization JSONObjectWithData:jsonData
-                                              options:kNilOptions
-                                                error:nil];
-        if (![dic isKindOfClass:[NSDictionary class]]) dic = nil;
-    }
-    return dic;
-}
+
+
+
+
+
 
 + (void)handleCallbackWithError:(NSError *)error fail:(MMResponseFail)fail {
     if ([error code] == NSURLErrorCancelled) {
@@ -1092,18 +1187,61 @@ static inline NSString *cachePath() {
         [MMShowMessageView dismissErrorView:@"Error"];
     });
 }
+
+#pragma mark Cookie
+
+///其中存储cookie可能会有问题
+
++ (void)getAndSaveCookie:(NSURLSessionDataTask *)task andUrl:(NSString *)url {
+    NSDictionary * *headers = [(NSHTTPURLResponse *)task.response allHeaderFields];
+
+    NSArray *cookie = [NSHTTPCookie cookiesWithResponseHeaderFields:headers forURL:[NSURL URLWithString:url]];
+
+    if (cookie && cookie.count != 0) {
+        NSData * cookiesData = [NSKeyedArchiver archivedDataWithRootObject:[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]];
+
+        if(!cookiesData){
+            return;
+        }
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        [ud setObject:cookiesData forKey:@"UserCookie"];
+        [ud synchronize];
+    }
+}
+
++ (void)deleteCookieWithLoginOut {
+    NSData *cookieData = [NSData data];
+    [[NSUserDefaults standardUserDefaults] dataForKey:@"UserCookie"];
+    if(!cookiesData){
+        return;
+    }
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud setObject:cookiesData forKey:@"UserCookie"];
+    [ud synchronize];
+
+    NSHTTPCookieStorage * *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+
+    for (NSHTTPCookie *tmpCookie in cookies) {
+        [cookieStorage deleteCookie:tmpCookie];
+    }
+}
+
++ (void)setUpCookie {
+    //取出保存的cookie
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    //对取出的cookie进行反归档处理
+    NSArray *cookies = [NSKeyedUnarchiver unarchiveObjectWithData:[userDefaults objectForKey:@"UserCookie"]];
+
+    if (cookies && cookies.count != 0) {
+
+        //设置cookie
+        NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        for (id cookie in cookies) {
+            [cookieStorage setCookie:(NSHTTPCookie *)cookie];
+        }
+    }
+}
+
+
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
